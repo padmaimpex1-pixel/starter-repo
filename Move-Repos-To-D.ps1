@@ -72,7 +72,7 @@ if (-not $repos -or $repos.Count -eq 0) {
 }
 
 # Size repos and move largest first
-$repoInfo = foreach ($r in $repos) {
+$repoInfo = @(foreach ($r in $repos) {
     $size = Get-DirSizeBytes $r.FullName
     [pscustomobject]@{
         Path = $r.FullName
@@ -80,7 +80,7 @@ $repoInfo = foreach ($r in $repos) {
         SizeBytes = $size
         SizeGB = [math]::Round($size / 1GB, 2)
     }
-} | Sort-Object -Property SizeBytes -Descending
+}) | Sort-Object -Property SizeBytes -Descending
 
 $moved = @()
 
